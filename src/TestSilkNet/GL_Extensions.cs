@@ -57,6 +57,7 @@ namespace TestSilkNet
             uint program = gl.CreateProgram();
 
             // Load each part of the shader
+            var shaders = new List<uint>(shaderPaths.Length);
             var extensions = new List<ShaderType>(shaderPaths.Length);
             foreach (string shaderPath in shaderPaths)
             {
@@ -73,15 +74,25 @@ namespace TestSilkNet
                 // Load the shader
                 uint shader = CompileShader(gl, shaderType, shaderPath);
                 gl.AttachShader(program, shader);
+                shaders.Add(shader);
             }
 
             // Link shader parts together
             gl.LinkProgram(program);
 
             // Validate linking
-            gl.GetProgram(program, ProgramPropertyARB.LinkStatus, out int status);
-            if (status != (int)GLEnum.True)
-                throw new Exception("Program failed to link: " + gl.GetProgramInfoLog(program));
+            gl.GetProgram(program, ProgramPropertyARB.LinkStatus, out int success);
+            if (success != (int)GLEnum.True)
+            {
+                string msg = $"Program failed to link: {gl.GetProgramInfoLog(program)}";
+                throw new Exception(msg);
+            }
+
+            // Delete intermediary shader programs
+            foreach (uint shader in shaders)
+            {
+                gl.DeleteShader(shader);
+            }
 
             // Done!
             return program;
