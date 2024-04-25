@@ -3,11 +3,11 @@ using Silk.NET.OpenGL;
 using Silk.NET.Maths;
 using Silk.NET.Windowing;
 using System.Drawing;
-using System.Numerics;
+//using System.Numerics;
 using Silk.NET.GLFW;
-using Silk.NET.Maths;
+//using Silk.NET.Maths;
 using System;
-using System.Reflection;
+//using System.Reflection;
 
 namespace TestSilkNet;
 internal class Program
@@ -75,7 +75,7 @@ internal class Program
         //_gl.Uniform4(vertexColorLocation, r, g, b, 1);
 
         //
-        Vector2D<int> windowSize = _window.GetFullSize();
+        Vector2D<int> windowSize = _window.Size;
         float aspectRatio = (float)windowSize.X / windowSize.Y;
         float fov = 60 / 360f * MathF.Tau;
 
