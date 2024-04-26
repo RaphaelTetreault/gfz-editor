@@ -1,4 +1,5 @@
 ﻿using Silk.NET.Core.Contexts;
+using Silk.NET.OpenGL;
 using Silk.NET.GLFW;
 using Silk.NET.Input.Extensions;
 using Silk.NET.OpenGL;
