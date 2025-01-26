@@ -1,19 +1,21 @@
-﻿using Silk.NET.Input;
+﻿using ImGuiNET;
+using Silk.NET.GLFW;
+using Silk.NET.Input;
 using Silk.NET.OpenGL;
+using Silk.NET.OpenGL.Extensions.ImGui;
 using Silk.NET.Maths;
 using Silk.NET.Windowing;
-using System.Drawing;
-//using System.Numerics;
-using Silk.NET.GLFW;
-//using Silk.NET.Maths;
 using System;
-//using System.Reflection;
+using System.Drawing;
+
 
 namespace TestSilkNet;
 internal class Program
 {
     // State
     private static IWindow _window;
+    private static IInputContext _input;
+    private static ImGuiController _imgui;
     private static GL _gl;
     private static Glfw _glfw;
     private static uint _vao;
@@ -37,26 +39,31 @@ internal class Program
 
     static void Main(string[] args)
     {
-        _glfw = Glfw.GetApi();
         InitWindow();
     }
 
     private static unsafe void OnLoad()
     {
+        _glfw = Glfw.GetApi();
+
         InitInput();
         InitOpenGL();
+
+        _imgui = new ImGuiController(_gl, _window, _input);
     }
 
     private static void OnUpdate(double deltaTime)
     {
         //Console.WriteLine(nameof(OnUpdate));
+        _imgui.Update((float)deltaTime);
+
+        ImGui.ShowDemoWindow();
     }
 
     private static unsafe void OnRender(double deltaTime)
     {
         //Console.WriteLine(nameof(OnRender));
         _gl.Clear(ClearBufferMask.ColorBufferBit);
-        
 
         // Connect preset buffers to GL context, render
         _gl.BindVertexArray(_vao);
@@ -94,6 +101,8 @@ internal class Program
 
         // 6 = 3 verts * 2 triangles
         _gl.DrawElements(PrimitiveType.Triangles, 6, DrawElementsType.UnsignedInt, null);
+
+        _imgui.Render();
     }
 
     private static void KeyDown(IKeyboard keyboard, Key key, int keyCode)
@@ -117,15 +126,20 @@ internal class Program
         _window.Load += OnLoad;
         _window.Update += OnUpdate;
         _window.Render += OnRender;
+        // Handle resizes
+        _window.FramebufferResize += size =>
+        {
+            _gl.Viewport(size);
+        };
         _window.Run();
     }
     private static void InitInput()
     {
         // Get input
-        IInputContext input = _window.CreateInput();
+        _input = _window.CreateInput();
         // Subscribe each keyboard to the function
-        for (int i = 0; i < input.Keyboards.Count; i++)
-            input.Keyboards[i].KeyDown += KeyDown;
+        for (int i = 0; i < _input.Keyboards.Count; i++)
+            _input.Keyboards[i].KeyDown += KeyDown;
     }
     private static unsafe void InitOpenGL()
     {
