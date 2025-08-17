@@ -114,7 +114,7 @@ internal class Program
     }
 
 
-    private static void InitWindow()
+    private unsafe static void InitWindow()
     {
         // Create window
         WindowOptions options = WindowOptions.Default with
@@ -129,7 +129,11 @@ internal class Program
         // Handle resizes
         _window.FramebufferResize += size =>
         {
+            //_gl.Viewport(size);
+            WindowHandle* windowHandle = (WindowHandle*)_window.Handle;
             _gl.Viewport(size);
+            _glfw.SetWindowSize(windowHandle, size.X, size.Y);
+            //_glfw.SetWindowAspectRatio(windowHandle, size.X, size.Y);
         };
         _window.Run();
     }
