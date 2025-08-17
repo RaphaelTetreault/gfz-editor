@@ -1,12 +1,11 @@
 ﻿using System;
 
-namespace GfzEditor
+namespace gfz_editor;
+
+internal class Program
 {
-    internal class Program
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
-        {
-            Console.WriteLine("Hello, World!");
-        }
+        GfzEditor gfzEditor = new();
     }
 }
