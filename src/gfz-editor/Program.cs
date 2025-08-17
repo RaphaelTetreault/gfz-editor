@@ -1,5 +1,4 @@
-﻿using gfz_editor;
-using System;
+﻿using System;
 
 namespace GfzEditor
 {
@@ -8,9 +7,6 @@ namespace GfzEditor
         static void Main(string[] args)
         {
             Console.WriteLine("Hello, World!");
-
-            var window = new GfzRenderWindow();
-            window.Temp();
         }
     }
 }
