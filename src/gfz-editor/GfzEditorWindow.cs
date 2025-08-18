@@ -12,7 +12,7 @@ using Silk.NET.Windowing;
 
 
 namespace gfz_editor;
-unsafe internal /* abstract */ class GfzEditorWindow
+unsafe internal abstract class GfzEditorWindow
 {
     private GL glContext;
     private Glfw glfwContext;

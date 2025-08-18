@@ -6,7 +6,7 @@ internal static class StringTable
 {
     private static readonly Dictionary<GfzEditorText, string[]> Table = new()
         {
-            { GfzEditorText.title, ["Title"] },
+            { GfzEditorText.title, ["GFZ Editor"] },
             { GfzEditorText.save, ["Save"] },
             { GfzEditorText.load, ["Load"] },
         };

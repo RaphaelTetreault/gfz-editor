@@ -11,16 +11,17 @@ internal class GfzEditor
 {
     private GfzEditorLanguage Language = GfzEditorLanguage.English;
 
-    private GfzEditorMainWindow mainWindow;
+    private GfzEditorWindowMain mainWindow;
     private List<GfzEditorWindow> subwindows = [];
     // TODO: track threads, queue up new threads, kill threads
+    // if main closes, close all.
 
     public GfzEditor()
     {
-        mainWindow = new GfzEditorMainWindow("GFZ Editor");
+        mainWindow = new GfzEditorWindowMain("GFZ Editor");
         mainWindow.Window.Load += RunSubWindows;
-        subwindows.Add(new GfzEditorMainWindow("Sub 1"));
-        subwindows.Add(new GfzEditorMainWindow("Sub 2"));
+        //subwindows.Add(new GfzEditorWindowMain("Sub 1"));
+        //subwindows.Add(new GfzEditorWindowMain("Sub 2"));
     }
 
     public void Run()

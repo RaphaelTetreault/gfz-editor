@@ -13,12 +13,13 @@ using Silk.NET.Windowing;
 
 
 namespace gfz_editor;
-unsafe internal sealed class GfzEditorMainWindow : GfzEditorWindow
+unsafe internal sealed class GfzEditorWindowMain : GfzEditorWindow
 {
     public override Action<Vector2D<int>>? FramebufferResize => OnFramebufferResize;
 
+    public override Action? Load => InitMainScreen;
 
-    public GfzEditorMainWindow(string temp)
+    public GfzEditorWindowMain(string temp)
     {
         // Create window
         var options = WindowOptions.Default with
@@ -28,5 +29,21 @@ unsafe internal sealed class GfzEditorMainWindow : GfzEditorWindow
         };
         ConstructWindow(options);
     }
+
+
+    private void InitMainScreen()
+    {
+        //var monitorHandle = GlfwContext.GetWindowMonitor(WindowHandle);
+        var monitorHandle = GlfwContext.GetPrimaryMonitor();
+        var videoModeHandle = GlfwContext.GetVideoMode(monitorHandle);
+        var videoMode = *videoModeHandle;
+        // Calc size with gap
+        int w = videoMode.Width - 100;
+        int h = videoMode.Height - 100;
+        GlfwContext.SetWindowSize(WindowHandle, w, h);
+        GlfwContext.SetWindowPos(WindowHandle, 50, 50);
+    }
+
+
 
 }
