@@ -2,30 +2,38 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
-using Silk.NET.GLFW;
-using Silk.NET.OpenGL;
-using Silk.NET.OpenGL.Extensions.ImGui;
-using Silk.NET.Windowing;
 
+namespace gfz_editor;
 
-namespace gfz_editor
+internal class GfzEditor
 {
-    unsafe internal class GfzEditor
+    private GfzEditorLanguage Language = GfzEditorLanguage.English;
+
+    private GfzEditorMainWindow mainWindow;
+    private List<GfzEditorWindow> subwindows = [];
+    // TODO: track threads, queue up new threads, kill threads
+
+    public GfzEditor()
     {
-        private readonly GfzEditorWindow mainWindow;
-        //private readonly List<GfzEditorWindow> EditorWindows = [];
+        mainWindow = new GfzEditorMainWindow("GFZ Editor");
+        mainWindow.Window.Load += RunSubWindows;
+        subwindows.Add(new GfzEditorMainWindow("Sub 1"));
+        subwindows.Add(new GfzEditorMainWindow("Sub 2"));
+    }
 
-        public GfzEditor()
-        {
-            // Create initial window
-            mainWindow = new GfzEditorWindow("My Cool Window");
-            mainWindow.Window.Run();
-        }
+    public void Run()
+    {
+        mainWindow.Run();
+    }
 
-        private void Update(double deltaTime)
+    private void RunSubWindows()
+    {
+        foreach (GfzEditorWindow window in subwindows)
         {
-            mainWindow.Window.Render += (double _) => mainWindow.GLContext.Clear(ClearBufferMask.ColorBufferBit);
+            new Thread(window.Run).Start();
         }
     }
+
 }
