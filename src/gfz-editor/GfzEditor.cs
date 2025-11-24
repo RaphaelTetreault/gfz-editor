@@ -4,37 +4,65 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Silk.NET.Windowing;
+
 
 namespace gfz_editor;
 
 internal class GfzEditor
 {
+
     private GfzEditorLanguage Language = GfzEditorLanguage.English;
 
-    private GfzEditorWindowMain mainWindow;
-    private List<GfzEditorWindow> subwindows = [];
+    //private GfzEditorWindowThread mainEditorWindow;
+    //private List<GfzEditorWindow> subEditorWindows = [];
     // TODO: track threads, queue up new threads, kill threads
     // if main closes, close all.
+    GfzEditorWindow gfzEditorWindow;
+
 
     public GfzEditor()
     {
-        mainWindow = new GfzEditorWindowMain("GFZ Editor");
-        mainWindow.Window.Load += RunSubWindows;
-        //subwindows.Add(new GfzEditorWindowMain("Sub 1"));
-        //subwindows.Add(new GfzEditorWindowMain("Sub 2"));
+        gfzEditorWindow = new GfzEditorWindow();
+        gfzEditorWindow.Control.Window.Title = "GFZ Editor";
+        Console.WriteLine("Editor main init");
+
+        gfzEditorWindow.Control.Window.Load += () =>
+        {
+            GfzEditorWindowThread.Create<GfzEditorWindow>();
+        };
     }
 
     public void Run()
     {
-        mainWindow.Run();
+        gfzEditorWindow.Control.Window.Run();
     }
+}
 
-    private void RunSubWindows()
+
+public readonly record struct GfzEditorWindowThread
+{
+    //
+    private static int LastID = 0;
+
+    //
+    public int ID { get; init; }
+    public GfzEditorWindow EditorWindow { get; init; }
+    public Thread Thread { get; init; }
+
+    //
+    public static GfzEditorWindowThread Create<TGfzEditorWindow>()
+        where TGfzEditorWindow : GfzEditorWindow, new()
     {
-        foreach (GfzEditorWindow window in subwindows)
+        var editorWindow = new TGfzEditorWindow();
+        var editorWindowThread = new GfzEditorWindowThread()
         {
-            new Thread(window.Run).Start();
-        }
+            ID = ++LastID,
+            EditorWindow = editorWindow,
+            Thread = new Thread(editorWindow.Control.Window.Run),
+        };
+        editorWindowThread.EditorWindow.Control.Window.Title = $"Window {editorWindowThread.ID}";
+        editorWindowThread.Thread.Start();
+        return editorWindowThread;
     }
-
 }
