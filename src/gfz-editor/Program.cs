@@ -6,11 +6,7 @@ internal class Program
 {
     static void Main(string[] args)
     {
-        //GfzEditorMainWindow gfzEditor = new();
-        //gfzEditor.Run();
-        //Console.WriteLine("END");
-
-        GfzEditor editor = new();
+        GfzEditorProgram editor = new();
         editor.Run();
     }
 }

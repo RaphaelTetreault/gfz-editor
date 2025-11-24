@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Silk.NET.GLFW;
 using Silk.NET.Input;
 using Silk.NET.Maths;
@@ -32,6 +28,10 @@ unsafe public class Control
     {
     }
 
+    public Control(WindowOptions windowOptions) : this(CreateWindow(windowOptions))
+    {
+    }
+
     public Control(IWindow window)
     {
         this.window = window;
@@ -42,7 +42,6 @@ unsafe public class Control
             inputContext = Window.CreateInput();
             imGuiController = new ImGuiController(glContext, Window, InputContext);
             IsInitialized = true;
-            Console.WriteLine("Window load");
         }
         window.Load += InitializeContexts;
     }
@@ -64,21 +63,6 @@ unsafe public class Control
         return options;
     }
    
-    /// <summary>
-    ///     Makes the curren GLfw window fullscreen... kinda.
-    /// </summary>
-    /// <param name="glfw"></param>
-    private void SetFullscreen(Glfw glfw)
-    {
-        //var monitorHandle = GlfwContext.GetWindowMonitor(WindowHandle);
-        var monitorHandle = glfw.GetPrimaryMonitor();
-        var videoModeHandle = glfw.GetVideoMode(monitorHandle);
-        var videoMode = *videoModeHandle;
-        // Calc size with gap
-        int w = videoMode.Width - 100;
-        int h = videoMode.Height - 100;
-        glfw.SetWindowSize(WindowHandle, w, h);
-        glfw.SetWindowPos(WindowHandle, 50, 50);
-    }
+
 
 }
