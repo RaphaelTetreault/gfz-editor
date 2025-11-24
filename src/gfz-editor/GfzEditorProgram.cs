@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Silk.NET.Windowing;
 
 
-namespace gfz_editor;
+namespace Manifold.GfzEditor;
 
 internal class GfzEditorProgram
 {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace gfz_editor;
+namespace Manifold.GfzEditor;
 
 public static class DbWindowOptions
 {

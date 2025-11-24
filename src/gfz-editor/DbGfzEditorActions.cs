@@ -2,7 +2,7 @@
 using Silk.NET.Input;
 using Silk.NET.Maths;
 
-namespace gfz_editor;
+namespace Manifold.GfzEditor;
 
 public readonly partial record struct GfzEditor
 {

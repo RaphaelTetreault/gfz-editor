@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using Silk.NET.Windowing;
 
-namespace gfz_editor;
+namespace Manifold.GfzEditor;
 
 public readonly record struct GfzEditorThread
 {

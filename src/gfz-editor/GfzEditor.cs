@@ -1,7 +1,7 @@
 ﻿using System;
 using Silk.NET.Windowing;
 
-namespace gfz_editor;
+namespace Manifold.GfzEditor;
 
 public readonly partial record struct GfzEditor
 {

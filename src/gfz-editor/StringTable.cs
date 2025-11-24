@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace gfz_editor;
+namespace Manifold.GfzEditor;
 
 internal static class StringTable
 {
@@ -18,16 +18,4 @@ internal static class StringTable
         string item = items[languageIndex];
         return item;
     }
-}
-
-public enum GfzEditorLanguage
-{
-    English,
-}
-
-public enum GfzEditorText
-{
-    title,
-    save,
-    load,
 }

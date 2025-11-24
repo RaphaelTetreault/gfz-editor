@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace gfz_editor;
+namespace Manifold.GfzEditor;
 
 internal class Program
 {

@@ -11,7 +11,7 @@ using Silk.NET.WebGPU.Extensions.Disposal;
 using Silk.NET.WebGPU.Extensions.WGPU;
 using Silk.NET.Windowing;
 
-namespace gfz_editor;
+namespace Manifold.GfzEditor;
 
 unsafe public class Control
 {
