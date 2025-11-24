@@ -20,12 +20,12 @@ internal class GfzEditorProgram
         // Close all subwindows when closing
         editorMain.Control.Window.Closing += OnClosing;
 
-        // TEST subwindow
-        editorMain.Control.Window.Load += () =>
-        {
-            var editorThread = GfzEditorThread.Create<GfzEditor>();
-            editorSubwindows.Add(editorThread);
-        };
+        //// TEST subwindow
+        //editorMain.Control.Window.Load += () =>
+        //{
+        //    var editorThread = GfzEditorThread.Create<GfzEditor>();
+        //    editorSubwindows.Add(editorThread);
+        //};
     }
 
     private void OnClosing()
