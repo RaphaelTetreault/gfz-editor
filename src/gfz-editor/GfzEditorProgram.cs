@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
 using Silk.NET.Windowing;
 
 
@@ -10,8 +9,8 @@ internal class GfzEditorProgram
 {
     private GfzEditorLanguage Language = GfzEditorLanguage.English;
 
-    private GfzEditor editorMain;
-    private List<GfzEditorThread> editorSubwindows = [];
+    private readonly GfzEditor editorMain;
+    private readonly List<GfzEditorThread> editorSubwindows = [];
 
     public GfzEditorProgram()
     {
@@ -30,7 +29,7 @@ internal class GfzEditorProgram
 
     private void OnClosing()
     {
-        // TODO: someday, save editor windows in local settings file
+        // TODO: some day, save editor windows in local settings file
 
         // Close all subwindows
         foreach (var editorThread in editorSubwindows)
