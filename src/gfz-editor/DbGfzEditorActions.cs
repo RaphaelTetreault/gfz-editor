@@ -1,4 +1,5 @@
 ﻿using System;
+using Silk.NET.Input;
 using Silk.NET.Maths;
 
 namespace gfz_editor;
@@ -24,4 +25,27 @@ public readonly partial record struct GfzEditor
         Control.GlfwContext.SetWindowSize(Control.WindowHandle, w, h);
         Control.GlfwContext.SetWindowPos(Control.WindowHandle, gap / 4, gap / 2);
     }
+
+    // GENERIC input polling
+    private void KeyboardSubscribeToEvents(Action<IKeyboard, Key, int> keyboardEvent)
+    {
+        var input = Control.InputContext;
+        for (int i = 0; i < input.Keyboards.Count; i++)
+            input.Keyboards[i].KeyDown += keyboardEvent;
+    }
+    private void KeyboardCloseOnEsc(Key key)
+    {
+        if (key == Key.Escape)
+            Control.Window.Close();
+    }
+
+    // Assign specific method to generic event
+    private void MainEditor_HandleKeyboardEvents() => KeyboardSubscribeToEvents(MainEditor_HandleKeyboardEvents);
+
+    // Define specific handling
+    private void MainEditor_HandleKeyboardEvents(IKeyboard keyboard, Key key, int keyCode)
+    {
+        KeyboardCloseOnEsc(key);
+    }
+
 }

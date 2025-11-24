@@ -23,6 +23,7 @@ public readonly partial record struct GfzEditor
         var window = editor.Control.Window;
         window.Title = "GFZ Editor";
         window.Load += editor.Generic_SetWindowedFullscreen;
+        window.Load += editor.MainEditor_HandleKeyboardEvents;
         window.FramebufferResize += editor.Generic_OnFramebufferResize;
         return editor;
     }

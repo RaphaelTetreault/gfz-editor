@@ -4,6 +4,11 @@ using Silk.NET.Input;
 using Silk.NET.Maths;
 using Silk.NET.OpenGL;
 using Silk.NET.OpenGL.Extensions.ImGui;
+using Silk.NET.WebGPU;
+using Silk.NET.WebGPU.Extensions;
+using Silk.NET.WebGPU.Extensions.Dawn;
+using Silk.NET.WebGPU.Extensions.Disposal;
+using Silk.NET.WebGPU.Extensions.WGPU;
 using Silk.NET.Windowing;
 
 namespace gfz_editor;
@@ -14,12 +19,14 @@ unsafe public class Control
     private Glfw? glfwContext;
     private IInputContext? inputContext;
     private ImGuiController? imGuiController;
+    private WebGPU? webGPU;
     private readonly IWindow window;
 
     public GL GLContext => glContext!;
     public Glfw GlfwContext => glfwContext!;
     public IInputContext InputContext => inputContext!;
     public ImGuiController ImGuiController => imGuiController!;
+    public WebGPU WebGPU => webGPU!;
     public IWindow Window => window;
     public WindowHandle* WindowHandle => (WindowHandle*)Window.Handle;
     public bool IsInitialized { get; private set; }
@@ -41,6 +48,7 @@ unsafe public class Control
             glfwContext = Glfw.GetApi();
             inputContext = Window.CreateInput();
             imGuiController = new ImGuiController(glContext, Window, InputContext);
+            webGPU = WebGPU.GetApi();
             IsInitialized = true;
         }
         window.Load += InitializeContexts;
